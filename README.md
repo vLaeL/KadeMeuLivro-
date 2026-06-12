@@ -18,8 +18,7 @@ Tecnologias:
 - SQLAlchemy
 - Pillow
 - Python-dotenv
-
-Posteriormente -> Custom Tkinter
+- Custom Tkinter
 
 Como executar:
 
