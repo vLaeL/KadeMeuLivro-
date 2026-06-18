@@ -141,7 +141,7 @@ class LoginWind:
             card, text="Esqueceu a senha?",
             font=ctk.CTkFont("Arial", 11), text_color=PURPLE,
             fg_color="transparent", hover=False, anchor="e",
-            command=None,
+            command=self.abrir_esqueci,
         ).pack(padx=24, pady=(4, 0), fill="x")
 
         ctk.CTkButton(
@@ -192,6 +192,9 @@ class LoginWind:
         from screens.register_screen import RegisterWind
         RegisterWind()
 
+    def abrir_esqueci(self):
+        from screens.forgotpass_screen import ForgotWind
+        ForgotWind(self.janela)
 
 if __name__ == "__main__":
     LoginWind()

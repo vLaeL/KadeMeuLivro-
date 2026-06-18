@@ -283,7 +283,8 @@ class HomeWind:
         self._open_windows["perfil"] = instancia
 
     def _ir_favoritos(self):
-        messagebox.showinfo("Favoritos", "Funcionalidade em breve!")
+        from screens.favorite_screen import FavoritesWind
+        FavoritesWind(self.janela,self.usuario)
 
     def _sair(self):
         self.video_running = False
@@ -396,7 +397,7 @@ class HomeWind:
         api = GoogleBookApi()
         details = api.consult_id(id_livro)
         from screens.book_details_screen import BookDetails
-        instancia = BookDetails(self.janela, details)
+        instancia = BookDetails(self.janela, details, self.usuario)
         self._open_windows[id_livro] = instancia
 
 

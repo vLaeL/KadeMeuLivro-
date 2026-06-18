@@ -1,7 +1,8 @@
 import customtkinter as ctk
 from tkinter import messagebox
 import webbrowser
-from services.google_books_service import GoogleBookApi
+from database.connection import DatabaseManager
+from database.repository import FavoriteRepository
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -17,9 +18,15 @@ MUTED        = "#9e8faf"
 
 
 class BookDetails:
-    def __init__(self, janela_home, details_book):
+    def __init__(self, janela_home, details_book,usuario):
         self.janela_home  = janela_home
         self.details_book = details_book
+        self.usuario = usuario
+
+        db = DatabaseManager()
+        db.create_tables()
+        session = db.create_session()
+        self.repository = FavoriteRepository(session)
 
         self.janela = ctk.CTkToplevel(janela_home)
         self.janela.title(details_book.get("Título", "Detalhes do Livro"))
@@ -79,12 +86,12 @@ class BookDetails:
         desc_box.configure(state="disabled")
 
         ctk.CTkButton(
-            body, text="🔖  Salvar Livro",
+            body, text="❤️ Adicionar aos Favoritos",
             height=42, corner_radius=10,
             fg_color=SURFACE, hover_color="#1e1e3a",
             border_width=1, border_color=PURPLE,
             font=ctk.CTkFont("Arial", 13, "bold"),
-            text_color=TEXT, command=None,
+            text_color=TEXT, command=self.add_favorite,
         ).pack(padx=24, pady=(16, 4), fill="x")
 
         ctk.CTkFrame(body, height=1, fg_color=PURPLE).pack(fill="x", padx=24, pady=20)
@@ -138,3 +145,26 @@ class BookDetails:
             webbrowser.open(url)
         else:
             messagebox.showinfo("Indisponível", "Link de compra não disponível para este livro.")
+
+    def add_favorite(self):
+        if self.repository.is_favorite(
+            self.usuario.id,
+            self.details_book["ID"]
+        ):
+            messagebox.showinfo(
+                "Favoritos",
+                "Este livro já foi adicionado aos favoritos."
+            )
+            return
+
+        self.repository.add_favorite(
+            self.usuario.id,
+            self.details_book
+        )
+
+        messagebox.showinfo(
+            "Favoritos",
+            "Livro adicionado aos favoritos!"
+        )
+
+        

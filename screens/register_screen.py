@@ -127,21 +127,37 @@ class RegisterWind:
         nome_split = nome.split()
         
 
+    def enviar(self):
+        nome = self.nomeentry.get().strip()
+        email = self.emailentry.get().strip()
+        senha1 = self.senhaprimentry.get()
+        senha2 = self.senhaseconentry.get()
+        nome_split = nome.split()
+
+        if not self.org_nome(nome):
+            return
+
+        if not self.validar_email(email):
+            return
+
+        if not self.validar_senha(senha1):
+            return
+
+        if not self.confirm_senha(senha1, senha2):
+            return
+
         try:
-            if (
-                self.org_nome(nome) and
-                self.validar_email(email) and
-                self.validar_senha(senha1) and
-                self.confirm_senha(senha1, senha2)
-            ):
-                self.repository.create_user(nome, email, senha1)
-        except Exception:
-            messagebox.showerror("Erro", "Erro inesperado ao registrar.")
+            self.repository.create_user(nome, email, senha1)
+        except Exception as e:
+            print(e)
+            messagebox.showerror("Erro", f"Erro ao registrar:\n{e}")
+            return
 
         messagebox.showinfo(
             "Registro",
-            f"{nome_split[0]}, você fez seu registro com sucesso!",
-        )    
+            f"{nome_split[0]}, você fez seu registro com sucesso!"
+        )
+
         self.janela.destroy()
         self.abrir_login()
 
