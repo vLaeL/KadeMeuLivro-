@@ -33,7 +33,7 @@ class ProfileWind:
         self.janela.configure(fg_color=BG)
 
         self._build_ui()
-        self._centralizar(860, 480)
+        self._centralizar(300, 480)
 
         if janela_pai is None:
             self.janela.mainloop()
@@ -75,15 +75,6 @@ class ProfileWind:
             font=ctk.CTkFont("Arial", 11), text_color=MUTED,
         ).pack(pady=(2, 20))
 
-        ctk.CTkButton(
-            left, text="✏️  Editar perfil",
-            height=36, corner_radius=8,
-            fg_color="transparent", hover_color=CARD_BG,
-            border_width=1, border_color=PURPLE,
-            font=ctk.CTkFont("Arial", 12), text_color=TEXT,
-            command=lambda: messagebox.showinfo("Perfil", "Funcionalidade em breve!"),
-        ).pack(padx=20, fill="x")
-
         # Divisor
         ctk.CTkFrame(left, height=1, fg_color=DIVIDER).pack(fill="x", padx=20, pady=24)
 
@@ -94,83 +85,6 @@ class ProfileWind:
             font=ctk.CTkFont("Arial", 12, "bold"), text_color=RED,
             command=self._sair,
         ).pack(padx=20, fill="x")
-
-        # ── Coluna direita ────────────────────────────────────────────────────
-        right = ctk.CTkFrame(outer, fg_color="transparent")
-        right.pack(side="left", fill="both", expand=True)
-
-        # Estatísticas
-        ctk.CTkLabel(
-            right, text="Minhas estatísticas",
-            font=ctk.CTkFont("Arial", 15, "bold"), text_color=TEXT, anchor="w",
-        ).pack(fill="x", pady=(4, 12))
-
-        stats_row = ctk.CTkFrame(right, fg_color="transparent")
-        stats_row.pack(fill="x")
-
-        stats = [
-            ("📖", "12", "Livros salvos"),
-            ("🕐", "28", "Buscas realizadas"),
-            ("🤍", "5",  "Favoritos"),
-        ]
-
-        for emoji, valor, label in stats:
-            card = ctk.CTkFrame(stats_row, fg_color=SURFACE, corner_radius=12)
-            card.pack(side="left", expand=True, fill="x", padx=(0, 10))
-
-            ctk.CTkLabel(card, text=emoji, font=ctk.CTkFont("Arial", 22)).pack(pady=(16, 2))
-            ctk.CTkLabel(
-                card, text=valor,
-                font=ctk.CTkFont("Arial", 22, "bold"), text_color=TEXT,
-            ).pack()
-            ctk.CTkLabel(
-                card, text=label,
-                font=ctk.CTkFont("Arial", 11), text_color=MUTED,
-            ).pack(pady=(0, 16))
-
-        # Últimas buscas
-        hist_header = ctk.CTkFrame(right, fg_color="transparent")
-        hist_header.pack(fill="x", pady=(24, 10))
-
-        ctk.CTkLabel(
-            hist_header, text="Últimas buscas",
-            font=ctk.CTkFont("Arial", 15, "bold"), text_color=TEXT,
-        ).pack(side="left")
-
-        ctk.CTkButton(
-            hist_header, text="Ver histórico completo",
-            height=30, corner_radius=8,
-            fg_color="transparent", hover_color=SURFACE,
-            border_width=1, border_color=MUTED,
-            font=ctk.CTkFont("Arial", 11), text_color=TEXT,
-            command=lambda: messagebox.showinfo("Histórico", "Funcionalidade em breve!"),
-        ).pack(side="right")
-
-        buscas = [
-            ("Clean Code",          "Hoje, 14:32"),
-            ("Arquitetura Limpa",   "Hoje, 13:15"),
-            ("Padrões de Projeto",  "Ontem, 18:45"),
-        ]
-
-        hist_frame = ctk.CTkFrame(right, fg_color=SURFACE, corner_radius=12)
-        hist_frame.pack(fill="x")
-
-        for i, (titulo, horario) in enumerate(buscas):
-            row = ctk.CTkFrame(hist_frame, fg_color="transparent")
-            row.pack(fill="x", padx=16, pady=(12 if i == 0 else 0, 12))
-
-            ctk.CTkLabel(
-                row, text=f"🕐  {titulo}",
-                font=ctk.CTkFont("Arial", 12), text_color=TEXT, anchor="w",
-            ).pack(side="left")
-
-            ctk.CTkLabel(
-                row, text=horario,
-                font=ctk.CTkFont("Arial", 11), text_color=MUTED, anchor="e",
-            ).pack(side="right")
-
-            if i < len(buscas) - 1:
-                ctk.CTkFrame(hist_frame, height=1, fg_color=DIVIDER).pack(fill="x", padx=16)
 
     # ── Controle de janela única ──────────────────────────────────────────────
 

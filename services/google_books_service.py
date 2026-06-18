@@ -87,4 +87,4 @@ class GoogleBookApi:
 
 if __name__ == "__main__":    
     teste1 = GoogleBookApi()
-    print(teste1.consult("Harry Potter"))
+    print(teste1.consult_list("Iracema"))
